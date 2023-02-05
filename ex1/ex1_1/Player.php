@@ -7,10 +7,12 @@ class Player
 {
     private array $bets = [];
     private float $balance = 0;
+    public string $name;
 
-    public function __construct(array $bets, array $games)
+    public function __construct(array $bets, string $name)
     {
         $this->bets = $bets;
+        $this->name = $name;
 
         return $this;
     }
@@ -32,23 +34,28 @@ class Player
 
                 if($bet->isWon($game))
                 {
+                    $coefficient = 0;
+
                     switch($game->getResult())
                     {
                         case 'R':
-                            $this->balance += $bet->amount * $game->getCoefficientR();
+                            $coefficient = $game->getCoefficientR();
                             break;
 
                         case 'L':
-                            $this->balance += $bet->amount * $game->getCoefficientL();
+                            $coefficient = $game->getCoefficientL();
                             break;
 
                         case 'D':
-                            $this->balance += $bet->amount * $game->getCoefficientD();
+                            $coefficient = $game->getCoefficientD();
                             break;
 
                         default:
                             throw new \Exception("Невалидный результат игры");
+                            break;
                     }
+
+                    $this->balance += $bet->amount * $coefficient - $bet->amount;
                 } else {
                     $this->balance -= $bet->amount;
                 }

@@ -14,7 +14,7 @@ class GameStorage
 
     public function setGame(Game $g)
     {
-        $this->games[] = $g;
+        $this->games[$g->getId()] = $g;
 
         return $this;
     }
@@ -25,15 +25,12 @@ class GameStorage
         {
             throw new \Exception("Невалидный ID игры");
         }
-        
-        foreach($this->games as $game)
+
+        if(!empty($this->games[$id]))
         {
-            if($game->getId() == $id)
-            {
-                return $game;
-            } else {
-                throw new \Exception("Игры с таким ID не найдена");
-            }
+            return $this->games[$id];
+        } else {
+            throw new \Exception("Игры с таким ID не найдена");
         }
     }
 }
