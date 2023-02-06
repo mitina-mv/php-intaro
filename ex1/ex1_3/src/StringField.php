@@ -9,6 +9,6 @@ class StringField extends FieldWithInterval
 {
     public function isValid() : string
     {
-        return preg_match("/^[\w\s()*\&\?,.:\"\']{" . $this->n . "," .$this->m . "}+$/", $this->value) == 1 ? "OK" : "FAIL";
+        return preg_match("/^[\w\s\W]{" . $this->n . "," .$this->m . "}+$/", $this->value) == 1 ? "OK" : "FAIL";
     }
 }
