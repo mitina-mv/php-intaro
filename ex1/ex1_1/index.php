@@ -1,36 +1,42 @@
 <?php
+// это установка строгой типизации
 declare(strict_types=1);
 
+// подключаем файлики ставок и файл с общими функциями
 require_once "./../../common/common-function.php";
 require "./Bet.php";
 require "./Player.php";
 require "./Game.php";
 require "./GameStorage.php";
 
+// говорим, что используем эту всю красоту из неймспейса
 use Ex1\GameStorage;
 use Ex1\Bet;
 use Ex1\Player;
 use Ex1\Game;
 
+// забираем пути файликов для проведения тестов по маске от текущего расположения ("./")
 $pathInner = glob('./test/*.dat');
 $pathOuter = glob('./test/*.ans');
 
-$gameStorages = [];
-$players = [];
+$gameStorages = []; // хранилище хранилищ игр :)
+$players = []; // хранилище игроков
 
+// перебираем файлы входных данных
 foreach($pathInner as $key => $path)
 {
-    $fileContent = file($path);
+    $fileContent = file($path); // получаем контент из файлика в виде массива строк
     $bets = [];
     $i = 1;
 
-    $gameStorage = new GameStorage();
+    $gameStorage = new GameStorage(); // создаем хранилище игр для текущего файла входных данных
 
+    // перебираем строки, создаем ставки
     for($i; $i <= $fileContent[0]; ++$i)
     {
-        $betInfo = explode(" ", $fileContent[$i]);
+        $betInfo = explode(" ", $fileContent[$i]); // разбиваем на массив по пробелу
 
-        if(count($betInfo) == 3)
+        if(count($betInfo) == 3) // минимальная проверка на валидность результата
         {
             $bets[] = new Bet(
                 (int)$betInfo[0], 
@@ -42,13 +48,16 @@ foreach($pathInner as $key => $path)
         }
     }
 
+    // создаем игрока со ставками
     $players[] = new Player($bets, "игрок {$key}");
 
     $gameCount = $fileContent[$i];
 
+    // перебираем строки, создаем игры
     for($j = ($i + 1); $j <= ($i + $fileContent[$i]); ++$j)
     {
         $gameInfo = explode(" ", $fileContent[$j]);
+        
         if(count($gameInfo) == 5)
         {            
             $gameStorage->setGame((new Game(
@@ -63,16 +72,22 @@ foreach($pathInner as $key => $path)
         }
     }
 
+    // добавляем хранилище в хранилище хранилищ :)
     $gameStorages[] = $gameStorage;
 }
 
+// для генерации красивых таблиц
 $table = '<table><tr><th>Статус</th><th>Текст</th><th>Значение из файла</th><th>Значение программы</th></tr>';
 
+// перебираем пути файлов выходных данных, производим расчет баланса, заполняем таблицу
 foreach($pathOuter as $key => $path)
 {
-    $outResult = file($path)[0];
+    $outResult = file($path)[0]; // читаем файлик
+
+    // получаем и огругляем баланс
     $programmResult = round($players[$key]->getBalance($gameStorages[$key]));
 
+    // добавляем данные в таблицу
     $table .= testTable(
         ($outResult == $programmResult), 
         $key + 1, 
@@ -82,7 +97,7 @@ foreach($pathOuter as $key => $path)
 }
 
 $table .= '</table>';
-echo $table;
+echo $table; // вывод таблицы
 
 ?>
 <!DOCTYPE html>

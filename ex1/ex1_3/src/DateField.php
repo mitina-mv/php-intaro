@@ -1,16 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace Ex2;
+namespace Ex3;
 
 require_once 'Field.php';
 
+/**
+ * DateField
+ * Поле типа даты (D)
+ * 
+ * @package Ex3
+ * @author mitina_mv
+ */
 class DateField extends Field
 {
     public function isValid() : string
     {
+        // Создает и возвращает экземпляр класса DateTime, соответствующий заданному формату
         $date = \DateTime::createFromFormat("d.m.Y H:i", $this->value);
 
+        // условия: если дата существует и строковое значение совпадает с одним из возможных форматов
         return $date && (
             $date->format("d.m.Y H:i") == $this->value      // 01.01.2001 01:01
             || $date->format("d.m.Y G:i") == $this->value   // 01.01.2001 1:01
