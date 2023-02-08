@@ -1,0 +1,16 @@
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid;
+    padding: 5px;
+}
+
+td.error {
+    background: #ed1818;
+}
+
+td.success {
+    background: #19c619;
+}
