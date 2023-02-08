@@ -13,3 +13,37 @@ function testTable($status, $num, $val1, $val2){
 
     return "<tr><td class='{$color}'></td><td>$text</td><td>$val1</td><td>$val2</td>";
 }
+
+function testTableNew (array $headTable, $rows)
+{
+    $table = '<table><tr>';
+
+    // генерация шапки таблицы
+    foreach($headTable as $th)
+    {
+        $table .= "<th>{$th}</th>";
+    }
+    $table .= '</tr>';
+
+    // генерация содержимого
+    foreach($rows as $row)
+    {
+        $table .= '<tr>';
+        foreach($row as $cell)
+        {
+            if(is_bool($cell))
+            {
+                $color = $cell ? 'success' : 'error';
+                $table .= "<td class='{$color}'></td>";
+                continue;
+            }
+
+            $table .= "<td>{$cell}</td>";
+        }
+        $table .= '</tr>';
+    }
+
+    $table .= '</table>';
+
+    return $table;
+}
