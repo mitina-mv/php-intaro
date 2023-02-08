@@ -86,9 +86,9 @@ function getShortPath(array $graph, string $frNode, string $toNode) : array
     if($dist[$toNode] != INF)
     {
         $curNode = $toNode;
-
         // пока есть предществующие вершины
-        while ($previous[$curNode]) {
+        while (isset($previous[$curNode])) 
+        {
             array_unshift($result['path'], $curNode); // добавляем текущий узел в путь (в начало массива)
             $curNode = $previous[$curNode]; // новым текущим узлом становится предществующий
         }
@@ -157,7 +157,6 @@ for($i = 0; $i < count($pathInner); ++$i)
             }
         }
     }
-        p($graph);
 
     $indexCountRequest = $settingsGraph[1] + 1;
     $countRequest = $innerData[$indexCountRequest];
@@ -213,7 +212,7 @@ for($i = 0; $i < count($pathInner); ++$i)
     foreach($programmAnswers as $key => $ans)
     {
         $tableRows[] = [
-            ($ans == (trim($outerData[$key]) ?: '--')), // тут стравнение
+            ($ans['dist'] == (trim($outerData[$key]) ?: '--')), // тут стравнение
             $key + 1,
             $outerData[$key] ?: "--", 
             $ans['dist'],
@@ -230,20 +229,16 @@ for($i = 0; $i < count($pathInner); ++$i)
 
 }
 
-$graph_array = array(
-    // array("0", "1", 10),
-    array("0", "2", 10),
-    array("1", "2", 10),
-    array("3", "4", 10),
-    array("3", "5", 10),
-    array("8", "8", 0),
-    // array("0", "3", 110),
-    array("4", "5", 10)
-);
+?>
 
-$res = getShortPath($graph_array, "0", "3");
-p($res);
-
-$res = getShortPath($graph_array, "1", "8");
-p($res);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
