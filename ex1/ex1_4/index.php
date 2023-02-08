@@ -129,6 +129,7 @@ for($i = 0; $i < count($pathInner); ++$i)
     // массив ребер графа
     $graph = [];
 
+    // составляем граф из исходных данных
     for($j = 1; $j <= $settingsGraph[1]; ++$j)
     {
         $edge = explode(" ", $innerData[$j]);
@@ -139,19 +140,23 @@ for($i = 0; $i < count($pathInner); ++$i)
         $graph[] = [$fr, $to, (int)$edge[2]];
     }
 
-    $additionalNodes = array_values(
-        array_unique(
-            array_merge(
-                array_column($graph, 0),
-                array_column($graph, 1)
+    // определяем, все ли вершины хотя бы раз участвуют в графе
+    $additionalNodes = array_values(  // переиндексация => 0, 1, 2... 
+        array_unique(       // удаляем дубли в массиве вершин
+            array_merge(    // объединяем массивы исходных и конечных вершин
+                array_column($graph, 0),  // исходные вершины
+                array_column($graph, 1)   // конечные вершины
             )
         )
     );
 
+    // если количество вершин в графе не равно указанному
     if(count($additionalNodes) != $settingsGraph[0])
     {
+        // генерируем новые вершины к недостающим
         for($j = 0; $j < $settingsGraph[0]; ++$j)
         {
+            // замыкаем вершину саму на себя
             if(!in_array($j, $additionalNodes)){
                 $graph[] = [(string)$j, (string)$j, 0];
             }
@@ -162,6 +167,7 @@ for($i = 0; $i < count($pathInner); ++$i)
     $countRequest = $innerData[$indexCountRequest];
     $programmAnswers = [];
 
+    // получаем и выполняем работы над графом
     for($j = 1; $j <= $countRequest; ++$j)
     {
         $request = explode(" ", $innerData[$j + $indexCountRequest]);
@@ -171,8 +177,10 @@ for($i = 0; $i < count($pathInner); ++$i)
             $rq = trim($rq);
         }
         
+        // какое из выражений будет истинным
         switch (true) {
             case ($request[2] == '-1'):
+                // получаем индекс удаляемого ребра
                 $index = getEdge($graph, $request[0], $request[1]);
 
                 if($index != -1)
@@ -182,16 +190,20 @@ for($i = 0; $i < count($pathInner); ++$i)
                 break;
 
             case ($request[2] == '?'):
+                // получаем путь 
                 $programmAnswers[] = getShortPath($graph, $request[0], $request[1]);
                 break;
 
             case is_int((int)$request[2]):
+                // получаем индекс ребра, которое модифицируем
                 $index = getEdge($graph, $request[0], $request[1]);
 
+                // если есть такое ребро - меняем
                 if($index != -1)
                 {
                     $graph[$index][2] = (int)$request[2];
                 }
+                // если нет - создаем новое ребро
                 else 
                 {
                     $graph[] = $request;
