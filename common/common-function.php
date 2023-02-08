@@ -7,6 +7,7 @@ function p($array)
     echo "</pre>";
 }
 
+// TODO удалить и перевести весь используемый код на функцию testTableNew()
 function testTable($status, $num, $val1, $val2){
     $color = $status ? 'success' : 'error';
     $text = $status ? "Тест {$num} пройден <b>успешно</b>." : "Тест {$num} пройден <b>неудачно</b>.";
@@ -31,6 +32,7 @@ function testTableNew (array $headTable, $rows)
         $table .= '<tr>';
         foreach($row as $cell)
         {
+            // TODO ввести аргументы (классы и т.д.) для генерации более гибких таблиц
             if(is_bool($cell))
             {
                 $color = $cell ? 'success' : 'error';
