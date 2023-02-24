@@ -1,0 +1,11 @@
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid;
+    padding: 8px;
+    font-family: 'Consolas';
+    font-size: 16px;
+    letter-spacing: 1px;
+}
