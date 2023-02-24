@@ -4,5 +4,8 @@ table {
 
 td, th {
     border: 1px solid;
-    padding: 5px;
+    padding: 8px;
+    font-family: 'Consolas';
+    font-size: 16px;
+    letter-spacing: 1px;
 }
