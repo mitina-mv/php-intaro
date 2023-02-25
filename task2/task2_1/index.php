@@ -3,16 +3,23 @@ declare(strict_types = 1);
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/common/common-function.php";
 
+// хранилище исходных строк и выходных данных
 $innerContent = file('./test/test.dat');
 $outerContent = [];
 
 foreach($innerContent as $str)
 {
+    // preg_replace_callback - встроенная функция php, которая
+    // 1. находит в строке $str совпадение по маске (регулярке)
+    // 2. выполняет с найденным значением операцию (и) из колбек-функции
+    // 3. возвращаемое значение колбека заменяет предыдущее, найденное по маске
     $outerContent[] = preg_replace_callback(
         "/['][\d]+[']/", 
         function($matches)
         {
+            // мы нашли '2', а нужно просто число
             $num = trim($matches[0], "'");
+            // т.к. типизация строгая, небходимо привести строку к числу, чтобы умножить
             return "'" . (int)$num * 2 . "'";
         }, 
         $str
