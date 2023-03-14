@@ -9,9 +9,9 @@ require_once "colors.php";
 use Task3\FileManager;
 
 $innerFileManager = new FileManager('./test/*.dat');
+$allUserActions = [];
 
 for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
-// for($i = 0; $i < 1; ++$i)
 {
     $content = $innerFileManager->getContent($i);
     $positions = [];
@@ -34,22 +34,23 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         ++$usersActions[trim($tmp[1])];
         ++$sumActions;
     }
-    p($usersActions);
+
+    $allUserActions[] = $usersActions;
 
     // Создать изображение с указанными размерами
-   $image = imageCreate(600, 600);
+   $image = imagecreate(600, 600);
    $bgcolor = imagecolorallocate($image, 255, 255, 255); // задает фон
 
     // полная высота 600. делаем по 10 сверху-снизу и получаем 100% = 580
     // аналогично для ширины
     $lastY = 10;
-    $color = [];
+
     foreach($usersActions as $pos => $num)
     {
         $color = constant('COLOR_' . $pos);
         $c = imagecolorallocate($image, $color[0], $color[1], $color[2]);
 
-        $height = 580 * ($num / $sumActions); // высота полигона
+        $height = round(580 * ($num / $sumActions)); // высота полигона
 
         // TODO заменить прямоугольник на трапецию (?)
         imageFilledRectangle($image, 10, $lastY, 590, (int)$height + $lastY, $c);
@@ -57,19 +58,61 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         $lastY += (int)$height;
     }
 
+    // TODO вместо наложения картинки сделать нормальную трапецию
+    imagejpeg($image, './tmp' . ($i) . '.jpeg');
 
+    $newImage = imageCreateFromJpeg('./tmp' . ($i) . '.jpeg');
+    $crutch = imageCreateFromPng('./crutch.png');
+    imageSaveAlpha($crutch, true);
+    imagecopy($newImage, $crutch, 0, 0, 0, 0, 600, 600);
+    imagepng($newImage, './00' . ($i + 1) . '.png');
 
-    // TODO сделать наложение png с треугольником
-   /* $color1 = imagecolorallocate($image, COLOR_SEARCH[0], COLOR_SEARCH[1], COLOR_SEARCH[2]);
-
-   
-   imagefilledpolygon($image, [
-        10, 10, 
-        20, 50, 
-        560, 50,
-        580, 10
-    ], 4, $color1); */
-
-   imagepng($image, './image' . $i . '.png');
-
+    // удаление временной tmp файлика
+    unlink('./tmp' . ($i) . '.jpeg');
 }
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4</title>
+    <link rel="stylesheet" href="/common/common-styles.css">
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Картинка из программы</th>
+                <th>Картинка для проверки</th>
+                <th>Массив для проверки</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php
+                $progPicturesPath = glob('./00*.png');
+                $outPicturesPath = glob('./test/*.png');
+            ?>
+
+            <?php foreach($progPicturesPath as $key => $pic):?>
+                <tr>
+                    <td><?= $key + 1?></td>
+                    <td>
+                        <img src="<?= $pic?>" alt="Картинка из программы" width="600">
+                    </td>
+                    <td>
+                        <img src="<?= $outPicturesPath[$key]?>" alt="Картинка для проверки" width="600">
+                    </td>
+                    <td>
+                        <pre>
+                            <?php print_r($allUserActions[$key]);?>
+                        </pre>
+                    </td>
+                </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
