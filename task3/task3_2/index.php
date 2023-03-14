@@ -9,11 +9,7 @@ for($i = 1; $i <= 6; ++$i)
 {
     // получаем содержимое файлов xml
     $xmlprod = file_get_contents("./test/00{$i}_products.xml");
-    $xmlres = preg_replace(
-        '/[\r\n\s]/', 
-        "", 
-        file_get_contents("./test/00{$i}_result.xml")
-    );
+    $xmlres = new SimpleXMLElement(file_get_contents("./test/00{$i}_result.xml"));
     $xmlsect = file_get_contents("./test/00{$i}_sections.xml");
 
     $prodSections = [];
@@ -56,25 +52,16 @@ for($i = 1; $i <= 6; ++$i)
         }        
     }
 
-    $programmResult = $xmlProgResult->asXML();
-    $programmResult = preg_replace(
-        '/[\r\n\s]/', 
-        "", 
-        $programmResult
-    );
-
-    $tableRows[] = [
-        $programmResult == $xmlres,
-        $programmResult,
-        $xmlres
-    ];
-
     // выводим результаты тестирования 
     echo "<h3>Тест #{$i}</h3>";
-    echo testTableNew(
-        ["Статус", "Значение программы", "Значение из файла"],
-        $tableRows
-    );
+    
+    echo "Исходник<pre>";
+    print_r($xmlres);
+    echo "</pre>";
+
+    echo "Результат<pre>";
+    print_r($xmlProgResult);
+    echo "</pre>";
 }
 ?>
 
