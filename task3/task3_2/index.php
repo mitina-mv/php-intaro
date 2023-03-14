@@ -9,7 +9,11 @@ for($i = 1; $i <= 6; ++$i)
 {
     // получаем содержимое файлов xml
     $xmlprod = file_get_contents("./test/00{$i}_products.xml");
-    $xmlres = file_get_contents("./test/00{$i}_result.xml");
+    $xmlres = preg_replace(
+        '/[\r\n\s]/', 
+        "", 
+        file_get_contents("./test/00{$i}_result.xml")
+    );
     $xmlsect = file_get_contents("./test/00{$i}_sections.xml");
 
     $prodSections = [];
@@ -25,13 +29,21 @@ for($i = 1; $i <= 6; ++$i)
         $prods[(string)$xmlIterator->current()->Ид] = (array)$xmlIterator->current();
     }
 
-    /* $xmlProgResult = new SimpleXMLElement('<?xml version="1.0"?><Разделы></Разделы>'); */
+    $xmlProgResult = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><ЭлементыКаталога></ЭлементыКаталога>');
+    $resSections = $xmlProgResult->addChild('Разделы');
     
     $xmlIterator = new SimpleXMLIterator( $xmlsect );
     for($xmlIterator->rewind(); $xmlIterator->valid(); $xmlIterator->next()) 
     {
+        $curSection = $resSections->addChild('Раздел');
+
+        $curSection->addChild('Ид', (string)$xmlIterator->current()->Ид);
+        $curSection->addChild('Наименование', (string)$xmlIterator->current()->Наименование);
+
+        $prodsInSection = $curSection->addChild('Товары');
+        
         $sectionId = (string)$xmlIterator->current()->Ид;
-        $prodsInSection = $xmlIterator->current()->addChild('Товары');
+
         foreach($prodSections as $prodId => $arSectionId)
         {
             if(in_array($sectionId, $arSectionId))
@@ -44,22 +56,25 @@ for($i = 1; $i <= 6; ++$i)
         }        
     }
 
-    $programmResult = $xmlIterator->asXML();
-    echo "<pre>";
-    print_r($programmResult);
-    echo "</pre>";
-    // $tableRows[] = [
-    //     $programmResult == $xmlres,
-    //     $programmResult,
-    //     $xmlres
-    // ];
+    $programmResult = $xmlProgResult->asXML();
+    $programmResult = preg_replace(
+        '/[\r\n\s]/', 
+        "", 
+        $programmResult
+    );
 
-    // // выводим результаты тестирования 
-    // echo "<h3>Тест #{$i}</h3>";
-    // echo testTableNew(
-    //     ["Статус", "Значение программы", "Значение из файла"],
-    //     $tableRows
-    // );
+    $tableRows[] = [
+        $programmResult == $xmlres,
+        $programmResult,
+        $xmlres
+    ];
+
+    // выводим результаты тестирования 
+    echo "<h3>Тест #{$i}</h3>";
+    echo testTableNew(
+        ["Статус", "Значение программы", "Значение из файла"],
+        $tableRows
+    );
 }
 ?>
 
