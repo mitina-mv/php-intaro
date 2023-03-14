@@ -54,14 +54,11 @@ for($i = 1; $i <= 6; ++$i)
 
     // выводим результаты тестирования 
     echo "<h3>Тест #{$i}</h3>";
-    
-    echo "Исходник<pre>";
-    print_r($xmlres);
-    echo "</pre>";
 
-    echo "Результат<pre>";
-    print_r($xmlProgResult);
-    echo "</pre>";
+    echo "<h4>Значение из результирующего файла</h4>";
+    p($xmlres);
+    echo "<h4>Значение программы</h4>";
+    p($xmlProgResult);
 }
 ?>
 
