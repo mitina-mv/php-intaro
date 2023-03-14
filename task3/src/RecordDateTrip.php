@@ -29,6 +29,7 @@ class RecordDateTrip
             $explodeData[3] = "+" . $explodeData[3];
         }
 
+        // сохраняю часовую зону
         $this->departureTimeZone = new \DateTimeZone($explodeData[1]);
         $this->arrivalTimeZone = new \DateTimeZone($explodeData[3]);
 
@@ -41,13 +42,19 @@ class RecordDateTrip
             explode("_", $explodeData[2])
         );
 
+        // создаю объект DateTimeImmutable - отличается тем, что любые изменения 
+        // создают новый DateTimeImmutable, а не меняют текущие вводные
         $this->departureDate = new \DateTimeImmutable($tmpDepDate, $this->departureTimeZone);
         $this->arrivalDate = new \DateTimeImmutable($tmpArrDate, $this->arrivalTimeZone);
 
+        // вычисляем разницу - возвращается DateTimeImmutable
+        // часовой пояс каждой даты приводится к UTC - это текущий часовой пояс
+        // какой именно пояс будет - неважно. главное, чтобы одинаковый между дат
         $diff = $this->arrivalDate
             ->setTimezone(new \DateTimeZone('UTC'))
             ->diff($this->departureDate->setTimezone(new \DateTimeZone('UTC')));
 
+        // считаем секунды из полученной даты
         $this->secondsTrip = ($diff->y * 365 * 24 * 60 * 60) +
             ($diff->m * 30 * 24 * 60 * 60) +
             ($diff->d * 24 * 60 * 60) +

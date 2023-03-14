@@ -16,25 +16,28 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
     $content = $innerFileManager->getContent($i);
     $positions = [];
 
+    // получаем позиции для отрисовки
     for($j = 1; $j <= $content[0]; ++$j)
     {
         $positions[] = trim($content[$j]);
     }
 
+    // массив подсчета количества действий по разным позициям
     $usersActions = array_combine(
         $positions,
         array_fill(0, count($positions), 0)
     );
 
-    $sumActions = 0;
+    // общее количество действий
+    $sumActions = $content[$j];
 
     for($k = ($j + 1); $k <= ($j + $content[$j]); ++$k)
     {
         $tmp = explode(" ", $content[$k]);
         ++$usersActions[trim($tmp[1])];
-        ++$sumActions;
     }
 
+    // фиксируется для проверки правильности отрисовки в итоговой таблице
     $allUserActions[] = $usersActions;
 
     // Создать изображение с указанными размерами
@@ -47,6 +50,7 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
 
     foreach($usersActions as $pos => $num)
     {
+        // забираем цвет из константы с соотв. названием
         $color = constant('COLOR_' . $pos);
         $c = imagecolorallocate($image, $color[0], $color[1], $color[2]);
 
@@ -55,15 +59,20 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         // TODO заменить прямоугольник на трапецию (?)
         imageFilledRectangle($image, 10, $lastY, 590, (int)$height + $lastY, $c);
         
+        // запоминаем сдвиг по У для следующей полосы
         $lastY += (int)$height;
     }
 
-    // TODO вместо наложения картинки сделать нормальную трапецию
+    // TODO вместо наложения картинки сделать нормальные трапеции
+    // сохраняем временный jpeg
     imagejpeg($image, './tmp' . ($i) . '.jpeg');
 
+    // открываем только сохраненный jpeg
     $newImage = imageCreateFromJpeg('./tmp' . ($i) . '.jpeg');
+    // открываем файлик с треугольником с прозрачностью
     $crutch = imageCreateFromPng('./crutch.png');
     imageSaveAlpha($crutch, true);
+    // накладываем триугольник поверх jpeg и сохраняем в png
     imagecopy($newImage, $crutch, 0, 0, 0, 0, 600, 600);
     imagepng($newImage, './00' . ($i + 1) . '.png');
 

@@ -31,6 +31,7 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
     } 
     else 
     {
+        // данные по таблице для отрисовке
         $tableRows = [];
         foreach($innerResult as $key => $ans)
         {
