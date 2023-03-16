@@ -28,33 +28,51 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         array_fill(0, count($positions), 0)
     );
 
-    // общее количество действий
-    $sumActions = $content[$j];
-
     for($k = ($j + 1); $k <= ($j + $content[$j]); ++$k)
     {
         $tmp = explode(" ", $content[$k]);
         ++$usersActions[trim($tmp[1])];
     }
 
+    $lastKey = array_key_last($usersActions);
+    $arPicturePart = [];
+
+    foreach($usersActions as $key => $act)
+    {
+        if($key == $lastKey)
+        {
+            $arPicturePart[$key] = $act;
+        } else {
+            $arPicturePart[$key] = $act - getNextArrElement($usersActions, $key);
+        }
+    }
+
     // фиксируется для проверки правильности отрисовки в итоговой таблице
     $allUserActions[] = $usersActions;
+    // особенность задачи - 100% представляют собой число из первого действия
+    $countUser = array_shift($usersActions);
+
+    unset($usersActions);
 
     // Создать изображение с указанными размерами
    $image = imagecreate(600, 600);
    $bgcolor = imagecolorallocate($image, 255, 255, 255); // задает фон
 
     // полная высота 600. делаем по 10 сверху-снизу и получаем 100% = 580
-    // аналогично для ширины
+    // высота одной линии картики
+    $heightUnitPicture = round(580 / $countUser);
+
+    // фиксируем сдвиг, чтобы рисовать линии друг под другом
+    // точка (0, 0) в верхнем левом углу
     $lastY = 10;
 
-    foreach($usersActions as $pos => $num)
+    foreach($arPicturePart as $pos => $num)
     {
         // забираем цвет из константы с соотв. названием
         $color = constant('COLOR_' . $pos);
         $c = imagecolorallocate($image, $color[0], $color[1], $color[2]);
 
-        $height = round(580 * ($num / $sumActions)); // высота полигона
+        $height = $heightUnitPicture * $num; // высота полигона
 
         // TODO заменить прямоугольник на трапецию (?)
         imageFilledRectangle($image, 10, $lastY, 590, (int)$height + $lastY, $c);

@@ -49,3 +49,15 @@ function testTableNew (array $headTable, $rows)
 
     return $table;
 }
+function getNextArrElement($array, $key) {
+    return current(
+        array_slice(
+            $array, 
+            array_search(
+                $key, 
+                array_keys($array)
+            ) + 1, 
+            1
+        )
+    );
+ }
