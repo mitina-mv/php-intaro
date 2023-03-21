@@ -1,0 +1,46 @@
+.form-field.error input,
+.form-field.error textarea {
+    border: 1px solid #ba0000;
+}
+
+input, textarea {
+    border: 1px solid #ccc;
+    padding: 6px 16px;
+    border-radius: 5px;
+}
+
+form {
+    display: grid;
+    gap: 10px;
+    width: 50%;
+}
+
+.form-field {
+    display: grid;
+    gap: 4px;
+}
+.message-form{
+    display: none;
+}
+.message-form.error {
+    display: block;
+    padding: 10px;
+    background: #efd1d1;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.form-field.error span.error-message {
+    color: #f00;
+    display: block;
+}
+
+span.error-message {
+    display: none;
+}
+.message-form.sucsess {
+    display: block;
+    padding: 10px;
+    background: #cef9b7;
+    border: 1px solid #0f8b02;
+}
