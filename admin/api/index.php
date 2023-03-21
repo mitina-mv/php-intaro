@@ -3,7 +3,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT');
 
 // Подключаем библиотеки и хелперы
 include_once 'helpers/query.php';
-session_start();
+// session_start();
 
 // Получаем данные из запроса
 $data = \Helpers\query\getRequestData();
@@ -19,7 +19,7 @@ if (\Helpers\query\isValidRouter($router)) {
     route($data);
 
     // TODO удалить, когда заработют нормальные ответы
-    setcookie('query_error', '', 0, "/");
+    // setcookie('query_error', '', 0, "/");
 
 } else {
     // Выбрасываем ошибку
