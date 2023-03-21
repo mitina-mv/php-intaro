@@ -56,7 +56,7 @@ function addRecord($formData)
             'email' => $formData['email'], 
             'uname' => $formData['uname'], 
             'phone' => $formData['phone'], 
-            'comment' => $formData['comment']
+            'comment' => htmlspecialchars($formData['comment']) 
         ]);
     } catch(PDOException $e) {
         \Helpers\query\throwHttpError('query error', $e->getMessage(), '400 query error');
@@ -65,9 +65,20 @@ function addRecord($formData)
 
     if($newId = (int)$pdo->lastInsertId()){
         $timeAnswer = $dateCreate->modify('+1 hour 30 minutes');
-        // $timeAnswer = $dateCreate->modify('+30 minutes');
         $nameArr = explode(' ', $formData['uname']);
 
+        // разбиваем по 70 символов, чтобы ничего не умерло
+        $comment = wordwrap(
+            htmlspecialchars($formData['comment']), 
+            70, 
+            "\r\n"
+        );
+
+        // отправка формы менеджеру по email из константы
+        mail(MANAGER_EMAIL, 
+            'Обращение из формы обратной связи', 
+            "Тут заявочка прилетета от \r\n {$formData['uname']} <{$formData['email']}>.\r\n Текст обращения:\r\n {$comment}\r\n. Ответьте до {$timeAnswer->format('H:i:s d.m.Y')}"
+        );
         return [
             'message' => <<< EOT
             Оставлено сообщение из формы обратной связи.<br/>

@@ -3,6 +3,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT');
 
 // Подключаем библиотеки и хелперы
 include_once 'helpers/query.php';
+include_once './../constants.php';
 // session_start();
 
 // Получаем данные из запроса
