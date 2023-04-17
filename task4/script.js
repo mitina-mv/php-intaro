@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 f.classList.add('error');
                 flag = true;
             } else if(field[0] == 'phone'
-                && !/(?:\+|\d)([\d\-\(\) ][^\w]?){11,}\d/g.test(field[1])
+                && !/\+([\d\-\(\) ][^\w]?){11,}\d/g.test(field[1])
             ) {
                 f.classList.add('error');
                 flag = true; 
