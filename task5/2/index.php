@@ -61,7 +61,7 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         {
             --$level;
         } else {
-            $innerResult[] = str_repeat('-', $level) . ' ' . $node['name'];
+            $innerResult[] = str_repeat('-', $level) . $node['name'];
             ++$level;
             $lastID = $id;
 
@@ -69,25 +69,42 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         }
     }
 
+    // данные для отрисовки в таблице
+    $tableRows = [];
+    foreach($innerResult as $key => $ans)
+    {        
+        $tableRows[] = [
+            ($ans == (trim($outContent[$key]) ?: '--')), // тут стравнение
+            $key + 1,
+            $outContent[$key] ?: "--", 
+            $ans
+        ];
+    }
 
-    print_r($innerResult);
+    // выводим результаты тестирования 
+    echo "<h3>Тест #{$i}</h3>";
+    echo testTableNew(
+        [
+            "Статус", 
+            "Номер строки", 
+            "Значение из файла", 
+            "Значение программы"
+        ],
+        $tableRows
+    );
 
-    /* 
-    создаем счетчик = 1 фиксируем в нем сдвиг
-    ищем по массиву входа в [1] совпадение по счетчику
-    если в [1] совпадение есть 
-        фиксируем этот узел в уровне, увеличиваем уровень, фикс текущий ид узла
-        в переменую ласт ид
-        и снова
-    иначе
-        ищем по [2] совпадение с счетчиков
-        если нашли
-            фиксируем узел
-            сравниваем текущий ид и ласт ид
-            если равны - это лист, уменьшаем уровень
-            иначе - --
-        иначе
-            конец
-    
-    */
+
 }
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4</title>
+    <link rel="stylesheet" href="/common/common-styles.css">
+</head>
+<body>
