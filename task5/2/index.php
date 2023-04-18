@@ -36,34 +36,26 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
     $level = 0;
     $lastID = null;
 
-    // print_r($queue);
-    // print_r(array_search(11, $queue));
-
     while($queue)
     {
         $node = [];
         $rightIndex = false;
-        // print_r($queue);
 
         foreach($innerContent as $id => $arr)
         {
             if($j == $arr['leftKey'] || $j == $arr['rightKey'])
             {
+                if($j == $arr['rightKey'] && $lastID != $id)
+                {
+                    $rightIndex = true;
+                }
+                
                 $node = $arr;
                 ++$j;
-
-                // if($j == $arr['rightKey'] && $lastID != $id)
-                // {
-                //     $rightIndex = true;
-                // }
 
                 break;
             }
         }
-
-        // echo $level . "<br>";
-        // print_r($node);
-        // print_r($queue);
 
         if($lastID == $id || $rightIndex)
         {
@@ -74,7 +66,6 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
             $lastID = $id;
 
             unset($queue[array_search($id, $queue)]);
-            // unset($innerContent[$id]);
         }
     }
 
