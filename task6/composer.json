@@ -1,0 +1,15 @@
+{
+    "name": "library/task6",
+    "autoload": {
+        "psr-4": {
+            "Task6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mitina Maria",
+            "email": "mit.maria2019@yandex.ru"
+        }
+    ],
+    "require": {}
+}
