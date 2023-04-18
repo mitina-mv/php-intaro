@@ -31,15 +31,15 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
         ];
     }
 
-    $j = 1;
-    $queue = array_keys($innerContent);
-    $level = 0;
-    $lastID = null;
+    $j = 1; // счетчик узлов - отражает заход
+    $queue = array_keys($innerContent); // очередь из id - контроль остановки цикла
+    $level = 0; // уровень - кол-во отрис. "-"
+    $lastID = null;  // фикс. пред id - чтобы отличить лист от остальных 
 
     while($queue)
     {
         $node = [];
-        $rightIndex = false;
+        $rightIndex = false; // если не лист, но уже пройден
 
         foreach($innerContent as $id => $arr)
         {
@@ -57,14 +57,16 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
             }
         }
 
+        // если это лист или уже пройденный родитель - избегаем повторного включения
         if($lastID == $id || $rightIndex)
         {
             --$level;
-        } else {
+        } else { // если нашли этот уровень впервые
             $innerResult[] = str_repeat('-', $level) . $node['name'];
             ++$level;
             $lastID = $id;
 
+            // удаляем из очереди
             unset($queue[array_search($id, $queue)]);
         }
     }
@@ -104,7 +106,7 @@ for($i = 0; $i < $innerFileManager->getCountFiles(); ++$i)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise 4</title>
+    <title>5.2 - задание В</title>
     <link rel="stylesheet" href="/common/common-styles.css">
 </head>
 <body>
