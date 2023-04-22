@@ -1,6 +1,12 @@
 <?php
 
-require './../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
+
+use Symfony\Component\Dotenv\Dotenv;
+
+// переменные из .env
+$dotenv = new Dotenv();
+$dotenv->load($_SERVER['DOCUMENT_ROOT'].'/.env');
 ?>
 
 <!DOCTYPE html>
@@ -13,5 +19,5 @@ require './../vendor/autoload.php';
 </head>
 <body>
     <header>
-        
+
     </header>
