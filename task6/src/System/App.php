@@ -2,6 +2,7 @@
 
 namespace App\System;
 
+use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -46,7 +47,7 @@ class App
         $this->setRequest();
         $this->setRequestContext();
         $this->setRouter();
-        $this->routes = [];
+        $this->routes = $this->router->getRouteCollection();
     }
 
     private function setRequest()
@@ -76,12 +77,36 @@ class App
 
         $this->router = new Router(
             new YamlFileLoader($fileLocator),
-            $_SERVER['DOCUMENT_ROOT'] . '/config/roures/routes.yaml'
+            $_SERVER['DOCUMENT_ROOT'] . '/config/routes/routes.yaml'
         );
+    }
+
+    public function getController()
+    {
+        return (new ControllerResolver())->getController($this->request);
+    }
+
+    public function getArguments()
+    {
+        return (new ArgumentResolver())->getArguments($this->request, $this->controller);
     }
 
     public function run()
     {
-        dump('Hello World');
+        $matcher = new UrlMatcher($this->routes, $this->requestContext);
+
+        try {
+            $this->request->attributes->add($matcher->match($this->request->getPathInfo()));
+
+            $this->controller = $this->getController();
+            $this->args = $this->getArguments();
+
+            $response = call_user_func($this->controller, $this->args);
+
+        } catch (Exception $e) {
+            exit('error');
+        }
+
+        $response->send();
     }
 }
