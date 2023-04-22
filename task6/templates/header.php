@@ -6,7 +6,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 // переменные из .env
 $dotenv = new Dotenv();
-$dotenv->load($_SERVER['DOCUMENT_ROOT'].'/.env');
+$dotenv->load($_SERVER['DOCUMENT_ROOT']. $DIR .'/.env');
 ?>
 
 <!DOCTYPE html>
