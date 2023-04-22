@@ -126,4 +126,68 @@ class Model
 
         return $data->fetchAll();
     }
+
+    /**
+     * удаляет записи из таблицы по условиям
+     * @return true в случае успеха
+     */
+    public function delete($where = [])
+    {
+        if(!$this->table)
+            throw new Exception("Не указано имя таблицы");
+
+        $strConditions = implode(" AND ", $where);
+
+        $query = <<< QUERY
+            DELETE FROM {$this->table} WHERE $strConditions
+        QUERY;
+
+        $data = $this->connection->prepare($query);
+        $data->execute();
+
+        return true;
+    }
+
+    /**
+     * обновляет данные по условию
+     */
+    public function update($values, $where = [])
+    {
+        if(!$this->table)
+            throw new Exception("Не указано имя таблицы");
+
+        $setValues = [];
+        foreach($values as $key => $value)
+        {
+            if(!in_array($key, $this->fillable))
+                throw new Exception("Недопустимый параметр {$key}. Проверьте fillable");
+
+            $setValues[] = "{$key} = {$value}";
+        }
+
+        $strSet = implode(", ", $setValues);
+        $strConditions = implode(" AND ", $where);
+
+        $query = <<< QUERY
+            UPDATE {$this->table} SET $strSet WHERE $strConditions
+        QUERY;
+
+        $data = $this->connection->prepare($query);
+        $data->execute();
+         
+        return true;
+    }
+
+    /**
+     * проверяет существование записи по условию
+     * @return bool 
+     */
+    public function isExists($where)
+    {
+        if(!$this->table)
+            throw new Exception("Не указано имя таблицы");
+
+        return count($this->where($where, [$this->primaryKey])) === 1;
+    }
+
 }
