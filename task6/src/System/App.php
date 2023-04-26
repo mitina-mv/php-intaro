@@ -29,6 +29,7 @@ class App
     private $requestContext;
     private $controller;
     private $args;
+    public $orm;
     
     public static $instance = null;
 
@@ -48,6 +49,13 @@ class App
         $this->setRequestContext();
         $this->setRouter();
         $this->routes = $this->router->getRouteCollection();
+        $this->orm = new ORM([
+            'dbname' => $_ENV['DB_NAME'],
+            'user' => $_ENV['DB_USER'],
+            'password' => $_ENV['DB_PASS'],
+            'host' => $_ENV['DB_HOST'],
+            'driver' => $_ENV['DB_DRIVER'],
+        ]);
     }
 
     private function setRequest()

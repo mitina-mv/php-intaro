@@ -14,6 +14,7 @@ class HelloController extends Controller
 
     public function print($name)
     {
+        dump($app->orm);
         return $this->render('hello', ['e666' => $name]);
     }
 }
