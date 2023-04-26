@@ -7,10 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HelloController extends Controller
 {
-    public function print()
+    public function s()
     {
-        return new Response(
-            sprintf("Hello %s", 'ss')
-        );
+        return $this->render('index', ['title' => 'ddd']);
+    }
+
+    public function print($name)
+    {
+        return $this->render('hello', ['e666' => $name]);
     }
 }

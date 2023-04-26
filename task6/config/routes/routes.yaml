@@ -1,6 +1,6 @@
 index_route:
   path: /
-  defaults: { _controller: 'App\Controller\HelloController::print' }
+  defaults: { _controller: 'App\Controller\HelloController::s' }
 
 hello_page:
   path: '/hello/{name}'

@@ -104,7 +104,7 @@ class App
             $response = call_user_func($this->controller, $this->args);
 
         } catch (Exception $e) {
-            exit('error');
+            exit('error :(');
         }
 
         $response->send();
