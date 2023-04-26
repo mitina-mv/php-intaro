@@ -23,7 +23,8 @@
         "symfony/yaml": "^5.4",
         "symfony/config": "^5.4",
         "symfony/orm-pack": "^2.3",
-        "sensio/framework-extra-bundle": "^6.2"
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/templating": "^5.4"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.4",
