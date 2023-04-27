@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class Controller
 {
     protected $view;
+    public $modelManager;
     
     public function render($path, $data = [])
     {
@@ -17,5 +18,6 @@ abstract class Controller
     public function __construct()
     {
         $this->view = new View();
+        $this->modelManager = app()->orm->getModelManager();
     }
 }
