@@ -2,41 +2,47 @@
 
 namespace App\Model;
 
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+
 /**
- * @Entity()
+ * @Entity
  * @Table(name="users")
  */
 class User
 {
     /**
-     * @id
+     * @Id
      * @Column(type="integer")
      * @GeneratedValue
      */
     public $id;
 
     /**
-     * @Column(type="string", name="firstname", length=255, nullable=false)
+     * @Column(type="string")
      */
     public $firstname;
 
     /**
-     * @Column(type="string", name="lastname", length=255, nullable=false)
+     * @Column(type="string")
      */
     public $lastname;
 
     /**
-     * @Column(type="string", name="patronymic", length=255, nullable=true)
+     * @Column(type="string", nullable=true)
      */
     public $patronymic;
 
     /**
-     * @Column(type="string", name="email", length=255, nullable=false)
+     * @Column(type="string")
      */
     public $email;
 
     /**
-     * @Column(type="string", name="email", length=128, nullable=false)
+     * @Column(type="string")
      */
     public $password;
 }

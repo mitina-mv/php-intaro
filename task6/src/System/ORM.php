@@ -4,6 +4,7 @@ namespace App\System;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\Setup;
 use PDO;
 use Exception;
 
@@ -17,7 +18,7 @@ class ORM
         $this->params = $params;
         
         $config = ORMSetup::createAnnotationMetadataConfiguration(
-            [$_SERVER['DOCUMENT_ROOT'] . '/src/Model/'],
+            ['src/Model'],
             true
         );
         $modelManager = EntityManager::create($this->params, $config);
