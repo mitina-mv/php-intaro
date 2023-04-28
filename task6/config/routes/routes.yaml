@@ -1,7 +1,31 @@
 index_route:
   path: /
-  defaults: { _controller: 'App\Controller\HelloController::s' }
+  defaults: { _controller: 'App\Controller\IndexController::index' }
 
-hello_page:
-  path: '/hello/{name}'
-  defaults: { _controller: 'App\Controller\HelloController::print' }
+# авториазция
+auth:
+  path: '/auth'
+  defaults: { _controller: 'App\Controller\AuthController::index' }
+  methods: GET
+
+auth_user:
+  path: '/auth/user'
+  defaults: { _controller: 'App\Controller\AuthController::auth' }
+  methods: POST
+
+# регистрация
+registration:
+  path: '/registration'
+  defaults: { _controller: 'App\Controller\AuthController::regindex' }
+  methods: GET
+
+registration_user:
+  path: '/registration/user'
+  defaults: { _controller: 'App\Controller\AuthController::register' }
+  methods: POST
+
+# разлогинивание
+logout:
+  path: '/logout'
+  defaults: { _controller: 'App\Controller\AuthController::logout' }
+  methods: GET
