@@ -7,7 +7,7 @@ use App\System\App;
 
 // переменные из .env
 $dotenv = new Dotenv();
-$dotenv->load($_SERVER['DOCUMENT_ROOT']. $DIR .'/.env');
+$dotenv->load($_SERVER['DOCUMENT_ROOT']. '/.env');
 
 $app = App::getInctance();
 

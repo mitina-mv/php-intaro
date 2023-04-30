@@ -16,7 +16,7 @@
         </nav>
 
         <div class="user-block">
-            <?php if($_SESSION['user']):?>
+            <?php if(isset($_SESSION['user'])):?>
                 <?=$_SESSION['user']->firstname?>
                 <a href="/logout">Выход</a>
             <?php else:?>

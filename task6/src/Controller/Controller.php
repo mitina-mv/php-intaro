@@ -33,6 +33,9 @@ abstract class Controller
             $getParams[]= "$key=$val";
         }
 
-        return new RedirectResponse("$path?" . implode("&", $getParams));
+        if(empty($data))
+            return new RedirectResponse($path);
+        else
+            return new RedirectResponse("$path?" . implode("&", $getParams));
     }
 }
