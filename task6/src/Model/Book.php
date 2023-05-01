@@ -66,17 +66,25 @@ class Book
      */
     public $name;
 
+    public $user = null;
+    public $author = null;
+
     public function getUser()
     {
-        return app()->orm->getModelManager()
-            ->getRepository(User::class)
-            ->find($this->author_id);
+        if(!$this->user)
+            $this->user = app()->orm->getModelManager()
+                ->getRepository(User::class)
+                ->find($this->user_id);
+        return $this->user;
     }
 
     public function getAuthor()
     {
-        return app()->orm->getModelManager()
-            ->getRepository(Author::class)
-            ->find($this->author_id);
+        if(!$this->author)
+            $this->author = app()->orm->getModelManager()
+                ->getRepository(Author::class)
+                ->find($this->author_id);
+        
+        return $this->author;
     }
 }

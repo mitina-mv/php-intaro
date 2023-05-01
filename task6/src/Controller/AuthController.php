@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function auth()
     {
-        $request = App::getInctance()->getRequest();
+        $request = app()->getRequest();
 
         $user = $this->repository->findOneBy([
             'email' => $request->get("email")
@@ -50,7 +50,7 @@ class AuthController extends Controller
     // TODO валидация данных
     public function register()
     {
-        $request = App::getInctance()->getRequest();
+        $request = app()->getRequest();
 
         if($this->repository->findOneBy([
             'email' => $request->get("email")

@@ -5,6 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
     <div class="errors">
         <?= isset($_GET['error']) ? $_GET['error'] : ''?>
     </div>
+    
     <div class="field">
         <label for="field-email">Email</label>
         <input type="email" name="email" id="field-email">

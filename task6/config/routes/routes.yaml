@@ -6,6 +6,11 @@ index:
 book:
   path: '/book'
   defaults: { _controller: 'App\Controller\BookController::index' }
+  methods: GET
+
+book_read:
+  path: '/book/{id}'
+  defaults: { _controller: 'App\Controller\BookController::read' }
   methods: GET  
 
 book_create:
@@ -16,12 +21,11 @@ book_create:
 book_update:
   path: '/book/{id}/update'
   defaults: { _controller: 'App\Controller\BookController::update' }
-  methods: PUT
+  methods: POST
 
 book_delete:
   path: '/book/{id}/delete'
-  defaults: { _controller: 'App\Controller\BookController::delete' }
-  methods: DELETE  
+  defaults: { _controller: 'App\Controller\BookController::delete' }  
 
 # авториазция
 auth:

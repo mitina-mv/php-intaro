@@ -16,7 +16,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 
             <div class="card__info">
                 <div class="card__info-item author">
-                    <b>Автор: </b><?= $book->author_id->getFio()?>
+                    <b>Автор: </b><?= $book->getAuthor()->fio?>
                 </div>
 
                 <div class="card__info-item date">
@@ -25,7 +25,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 
                 <?php if(isset($_SESSION['user'])):?>
                     <div class="card__info-item user">
-                        <b>Добавил(a): </b><?= $book->user_id->firstname?> <?= $book->user_id->lastname?>
+                        <b>Добавил(a): </b><?= $book->getUser()->firstname?> <?= $book->getUser()->lastname?>
                     </div>  
                 <?php endif;?>                  
             </div>
@@ -34,7 +34,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 
                 <?php if(isset($_SESSION['user'])):?>
                     <div class="buttons__action">
-                        <a href="/book/<?= $book->id?>/update" class="btn btn_success btn_edit">Редактировать</a>
+                        <a href="/book/<?= $book->id?>" class="btn btn_success btn_edit">Редактировать</a>
                         <a href="/book/<?= $book->id?>/delete" class="btn btn_danger btn_delete">Удалить</a>
                     </div>
                 <?php endif;?>
