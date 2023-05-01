@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 ?>
 <form action="/auth/user" method="post">
     <div class="errors">
-        <?=$error?>
+        <?= isset($_GET['error']) ? $_GET['error'] : ''?>
     </div>
     <div class="field">
         <label for="field-email">Email</label>

@@ -12,11 +12,11 @@
     <header>
         <nav class='header__main-menu main-menu'>
             <a class='main-menu__link' href="/">Главная</a>
-            <a class='main-menu__link' href="/book/">Добавить книгу</a>
+            <a class='main-menu__link' href="/book">Добавить книгу</a>
         </nav>
 
         <div class="user-block">
-            <?php if($_SESSION['user']):?>
+            <?php if(isset($_SESSION['user'])):?>
                 <?=$_SESSION['user']->firstname?>
                 <a href="/logout">Выход</a>
             <?php else:?>

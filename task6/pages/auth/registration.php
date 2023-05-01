@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 ?>
 <form action="/registration/user" method="post">
     <div class="errors">
-        <?=$_GET['error']?>
+        <?= isset($_GET['error']) ? $_GET['error'] : ''?>
     </div>
 
     <div class="field">
