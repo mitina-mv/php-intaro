@@ -25,4 +25,9 @@ class Author
      * @Column(type="string")
      */
     public $fio;
+
+    public function getFio()
+    {
+        return $this->fio;
+    }
 }
