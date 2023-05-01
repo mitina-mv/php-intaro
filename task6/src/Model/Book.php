@@ -6,7 +6,11 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\GeneratedValue;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Model\User;
 use App\Model\Author;
@@ -25,23 +29,20 @@ class Book
     public $id;
 
     /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="books")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Column(type="integer")
+     * #[Assert\NotBlank]
      */
     public $user_id;
 
     /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Author", inversedBy="books")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     * @Column(type="integer")
+     * #[Assert\NotBlank]
      */
     public $author_id;
 
     /**
      * @Column(type="boolean")
+     * #[Assert\NotBlank]
      */
     public $isdownload;
 
@@ -64,4 +65,18 @@ class Book
      * @Column(type="string")
      */
     public $name;
+
+    public function getUser()
+    {
+        return app()->orm->getModelManager()
+            ->getRepository(User::class)
+            ->find($this->author_id);
+    }
+
+    public function getAuthor()
+    {
+        return app()->orm->getModelManager()
+            ->getRepository(Author::class)
+            ->find($this->author_id);
+    }
 }
