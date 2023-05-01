@@ -1,6 +1,27 @@
-index_route:
+index:
   path: /
   defaults: { _controller: 'App\Controller\IndexController::index' }
+
+# книга
+book:
+  path: '/book'
+  defaults: { _controller: 'App\Controller\BookController::index' }
+  methods: GET  
+
+book_create:
+  path: '/book/create'
+  defaults: { _controller: 'App\Controller\BookController::create' }
+  methods: POST
+
+book_update:
+  path: '/book/{id}/update'
+  defaults: { _controller: 'App\Controller\BookController::update' }
+  methods: PUT
+
+book_delete:
+  path: '/book/{id}/delete'
+  defaults: { _controller: 'App\Controller\BookController::delete' }
+  methods: DELETE  
 
 # авториазция
 auth:

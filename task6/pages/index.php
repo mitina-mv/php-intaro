@@ -1,42 +1,53 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 ?>
-<?php // для авторизоавнного выводим его список
-if (isset($_SESSION['user'])) : ?>
+<div class="books">
+    <?php foreach ($books as $book) : ?>
+        <div class="books__item card">
+            <img 
+                src="<?= $book->picture_path ?: $_ENV['DEFAULT_IMG'] ?>" 
+                alt="<?= $book->name ?>" 
+                class="card__img"
+            />
 
-<?php // для неавторизованного - все книжки 
-// TODO сделать лимит и сортировку по дате добавления - свежие
-else : ?>
-    <div class="books">
-        <?php foreach ($books as $book) : ?>
-            <div class="books__item card">
-                <img 
-                    src="<?= $book->picture_path ?>" 
-                    alt="<?= $book->name ?>" 
-                    class="card__img"
-                />
-
-                <div class="card__caption">
-                    <?= $book->name?>
-                </div>
-
-                <div class="card__info">
-                    <div class="card__info-item author">
-                        <b>Автор: </b><?= $authors[$book->author_id->id]->fio?>
-                    </div>
-
-                    <div class="card__info-item date">
-                        <b>Дата прочтения: </b><?= $book->date->format('Y-m-d')?>
-                    </div>
-
-                    <div class="card__info-item user">
-                        <b>Добавил: </b><?= $users[$book->user_id->id]->firstname?> <?= $users[$book->user_id->id]->lastname?>
-                    </div>                    
-                </div>
-
+            <div class="card__caption">
+                <?= $book->name?>
             </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+
+            <div class="card__info">
+                <div class="card__info-item author">
+                    <b>Автор: </b><?= $book->author_id->getFio()?>
+                </div>
+
+                <div class="card__info-item date">
+                    <b>Дата прочтения: </b><?= $book->date->format('Y-m-d')?>
+                </div>
+
+                <?php if(isset($_SESSION['user'])):?>
+                    <div class="card__info-item user">
+                        <b>Добавил(a): </b><?= $book->user_id->firstname?> <?= $book->user_id->lastname?>
+                    </div>  
+                <?php endif;?>                  
+            </div>
+
+            <div class="buttons">
+
+                <?php if(isset($_SESSION['user'])):?>
+                    <div class="buttons__action">
+                        <a href="/book/<?= $book->id?>/update" class="btn btn_success btn_edit">Редактировать</a>
+                        <a href="/book/<?= $book->id?>/delete" class="btn btn_danger btn_delete">Удалить</a>
+                    </div>
+                <?php endif;?>
+
+                <?php if($book->isdownload):?>
+                    <a href="<?= $book->file_path?>" class="btn btn_primary">Скачать</a>
+                <?php endif;?>
+            </div>
+
+
+        </div>
+    <?php endforeach; ?>
+</div>
+
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/footer.php');

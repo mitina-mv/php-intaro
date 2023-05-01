@@ -16,37 +16,29 @@ class IndexController extends Controller
     
     public function index()
     {        
-        $books = $this->repository->findAll();
+        @session_start();
 
-        $users = [];
-        foreach($books as $book)
+        // для авториз. польз. запрашиваем только его книги в порядке прочтения
+        if(isset($_SESSION['user']))
         {
-            if(!isset($users[$book->user_id->id]))
-            {
-                $user = $this->modelManager
-                    ->getRepository(User::class)
-                    ->findOneBy(["id"=>$book->user_id]);
-                
-                $users[$user->id] = $user;
-            }
+            $books = $this->repository->findBy(
+                ['user_id' => $_SESSION['user']->id],
+                ['date' => 'ASC']
+            );
+        } 
+        // для неавторизованных - получаем 15 последних прочитанных книг всех пользовтелей
+        else 
+        { 
+            $books = $this->repository->findBy(
+                [], 
+                ['date' => 'ASC'], 
+                15
+            );
         }
-
-        $authors = [];
-        foreach($books as $book)
-        {
-            if(!isset($authors[$book->author_id->id]))
-            {
-                $authors[$book->author_id->id] = $this->modelManager
-                    ->getRepository(Author::class)
-                    ->findOneBy(["id"=>$book->author_id->id]);
-            }
-        }
-
+    
         return $this->render('index', 
             [
-                'books' => $books, 
-                'users' => $users, 
-                'authors' => $authors
+                'books' => $books,
             ]
         );
     }
