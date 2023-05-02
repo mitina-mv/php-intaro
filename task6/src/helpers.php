@@ -7,10 +7,8 @@ function app()
     return App::getInctance();
 }
 
-function loadfile($field, $user_dir = false, $allow = array('png', 'jpg', 'jpeg')){
-    // Разрешенные расширения файлов.
-    $allow = array('png', 'jpg', 'jpeg');
-    
+function loadfile($field, $user_dir = false, $allow = array('png', 'jpg', 'jpeg'))
+{    
     // Запрещенные расширения файлов.
     $deny = array(
         'phtml', 'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'phps', 'cgi', 'pl', 'asp', 
