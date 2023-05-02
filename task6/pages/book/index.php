@@ -2,7 +2,15 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 ?>
 <?php if(isset($_SESSION['user'])):?>
-    <form action="/book/create" method="post" enctype='multipart/form-data'>    
+    <form 
+        <?php if(isset($book)):?>
+            action="/book/<?= $book->id?>/update"
+        <?php else:?>
+            action="/book/create"
+        <?php endif?>
+        method="post" 
+        enctype='multipart/form-data'
+    >    
         <div class="errors">
             <?= isset($_GET['error']) ? $_GET['error'] : ''?>
         </div>
@@ -39,14 +47,31 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
             <input 
                 type="file" 
                 name="picture" 
-                id="field-picture" 
-                required
+                id="field-picture"
+                <?php if(!isset($book)):?>
+                    required
+                <?php endif;?>
             >
+            <?php if(isset($book)):?>
+                загружен файл: <?= $book->picture_path;?>
+                <img src="<?= $book->picture_path?>" alt="">
+            <?php endif;?>
         </div>
         
         <div class="field">
             <label for="field-book">Книга</label>
-            <input type="file" name="book" id="field-book" required>
+            <input 
+                type="file" 
+                name="book" 
+                id="field-book" 
+                <?php if(!isset($book)):?>
+                    required
+                <?php endif;?>
+            >
+            
+            <?php if(isset($book)):?>
+                загружен файл: <?= $book->file_path;?>
+            <?php endif;?>
         </div>
         
         <div class="field">
@@ -55,16 +80,23 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
                 type="date" 
                 name="date" 
                 id="field-date" 
-                <?php if(isset($book) && $book->isdownload):?>
-                    checked
-                <?php endif?>
                 required
+                <?php if(isset($book)):?>
+                    value="<?= $book->date->format("Y-m-d")?>"
+                <?php endif;?>
             >
         </div>
         
         <div class="field">
             <label for="field-isdownload">Разрешить скачивание</label>
-            <input type="checkbox" name="isdownload" id="field-isdownload">
+            <input 
+                type="checkbox" 
+                name="isdownload" 
+                id="field-isdownload"
+                <?php if(isset($book) && $book->isdownload):?>
+                    checked
+                <?php endif?>
+            >
         </div>
 
         <input type="submit" value="Сохранить">

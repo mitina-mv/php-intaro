@@ -46,7 +46,12 @@ class BookController extends Controller
 
         // загрузка файлов
         try {
-            $book->file_path = loadfile('book', $_SESSION['user']->email, ['pdf', 'doc'])[0];
+            $book->file_path = loadfile(
+                'book', 
+                $_SESSION['user']->email, 
+                explode(",", $_ENV['ALLOWED_FORMAT_BOOK'])
+            )[0];
+
             $book->picture_path = loadfile('picture', $_SESSION['user']->email)[0];
         } catch(Exception $e) {
             $this->redirect('/book', ["error" => $e->getMessage()]);
@@ -78,5 +83,51 @@ class BookController extends Controller
             'authors' => $authors,
             'book' => $book
         ]);
+    }
+
+    public function update($id)
+    {
+        @session_start();
+        
+        $request = app()->getRequest();
+        $book = $this->repository->find((int) $id[0]);
+
+        if(empty($book)){
+            return $this->redirect('/book/' . $id[0], ["error" => "Неизвестная книга, ID не найден"]);
+        }
+
+        if($book->user_id != $_SESSION['user']->id){
+            return $this->redirect('/book/' . $id[0], ["error" => "У вас нет прав редактировать эту запись"]);
+        }
+
+        $book->name = $request->get('name');
+        $book->date = new DateTime($request->get('date'));
+        $book->isdownload = $request->get('isdownload') == "on" ? true : false;
+        $book->author_id = (int) $request->get('author_id');
+
+        try {            
+            if($_FILES['picture'])
+            {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $book->picture_path);
+                $book->picture_path = loadfile('picture', $_SESSION['user']->email)[0];
+            }
+
+            if($_FILES['book'])
+            {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $book->file_path);
+                $book->file_path = loadfile(
+                    'book', 
+                    $_SESSION['user']->email, 
+                    explode(",", $_ENV['ALLOWED_FORMAT_BOOK'])
+                )[0];
+            }
+
+        } catch(Exception $e) {
+            $this->redirect('/book/'. $id[0], ["error" => $e->getMessage()]);
+        }
+        
+        $this->modelManager->flush();
+
+        return $this->redirect('/book/' . $id[0]);
     }
 }
