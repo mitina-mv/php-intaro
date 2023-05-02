@@ -27,15 +27,15 @@ abstract class Controller
     // TODO переделать, чтобы не отдавать get параметры
     public function redirect($path, $data = [])
     {
-        $getParams = [];
-        foreach($data as $key => $val)
-        {
-            $getParams[]= "$key=$val";
-        }
-
-        if(empty($data))
-            return new RedirectResponse($path);
-        else
+        if($data) {
+            $getParams = [];
+            foreach($data as $key => $val)
+            {
+                $getParams[]= "$key=$val";
+            }            
             return new RedirectResponse("$path?" . implode("&", $getParams));
+        } else {
+            return new RedirectResponse($path);
+        }
     }
 }

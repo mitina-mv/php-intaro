@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         if(!$user)
         {
-            return $this->redirect('/auth/index', ['error' => 'Ошибка. Пользователь не найден']);
+            return $this->redirect('/auth', ['error' => 'Ошибка. Пользователь не найден']);
         }
 
         if(md5($request->get("password")) == $user->password)
@@ -38,7 +38,7 @@ class AuthController extends Controller
             $_SESSION['user'] = $user;
             return $this->redirect('/');
         } else {
-            return $this->redirect('/auth/index', ['error' => 'Ошибка. Неверный пароль.']);
+            return $this->redirect('/auth', ['error' => 'Ошибка. Неверный пароль.']);
         }
     }
 
