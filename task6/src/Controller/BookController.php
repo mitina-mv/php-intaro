@@ -130,4 +130,24 @@ class BookController extends Controller
 
         return $this->redirect('/book/' . $id[0]);
     }
+
+    public function delete($id)
+    {
+        @session_start();
+
+        $book = $this->repository->find((int) $id[0]);
+
+        if($book->user_id != $_SESSION['user']->id){
+            return $this->redirect('/', ["error" => "У вас нет прав удалять эту запись"]);
+        }
+
+        // удаление файлов
+        unlink($_SERVER['DOCUMENT_ROOT'] . $book->picture_path);
+        unlink($_SERVER['DOCUMENT_ROOT'] . $book->file_path);
+
+        $this->modelManager->remove($book);
+        $this->modelManager->flush();
+
+        return $this->redirect('/');
+    }
 }
