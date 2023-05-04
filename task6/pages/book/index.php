@@ -10,12 +10,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
         <?php endif?>
         method="post" 
         enctype='multipart/form-data'
+        class='card'
     >    
         <div class="errors">
             <?= isset($_GET['error']) ? $_GET['error'] : ''?>
         </div>
         
-        <div class="field">
+        <div class="field field-text">
             <label for="field-name">Название</label>
             <input 
                 type="text" 
@@ -28,7 +29,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
             >
         </div>
         
-        <div class="field">
+        <div class="field field-text">
             <label for="field-author">Автор</label>
             <select name="author_id" id="field-author" required>
                 <?php foreach($authors as $author):?>
@@ -42,7 +43,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
             </select>
         </div>
         
-        <div class="field">
+        <div class="field field-file">
             <label for="field-picture">Обложка</label>
             <input 
                 type="file" 
@@ -53,12 +54,14 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
                 <?php endif;?>
             >
             <?php if(isset($book)):?>
-                загружен файл: <?= $book->picture_path;?>
-                <img src="<?= $book->picture_path?>" alt="">
+                <div class="file-info">
+                    загружен файл: <?= $book->picture_path;?>
+                    <img src="<?= $book->picture_path?>" alt="">
+                </div>
             <?php endif;?>
         </div>
         
-        <div class="field">
+        <div class="field field-file">
             <label for="field-book">Книга</label>
             <input 
                 type="file" 
@@ -70,11 +73,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
             >
             
             <?php if(isset($book)):?>
-                загружен файл: <?= $book->file_path;?>
+                <div class="file-info">
+                    загружен файл: <?= $book->file_path;?>
+                </div>
             <?php endif;?>
         </div>
         
-        <div class="field">
+        <div class="field field-text">
             <label for="field-date">Дата прочтения</label>
             <input 
                 type="date" 
@@ -99,7 +104,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
             >
         </div>
 
-        <input type="submit" value="Сохранить">
+        <input type="submit" value="Сохранить" class='btn btn_primary'>
 
         <p>* все поля обязательные</p>
         <p>* максимальный размер файла книги - 5Мб</p>

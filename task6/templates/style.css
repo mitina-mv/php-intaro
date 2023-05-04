@@ -1,0 +1,186 @@
+@import url(/assets/fonts/nunitosans/nunitosans.css);
+
+:root {
+    --main-text: #424242;
+    --active: #3b0aff;
+    --link: #9e9e9e;
+    --success: #35c315;
+    --danger: #ea4949;
+
+    --main-shadow: 0px 0px 40px 0px #b3aaea78;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-family: 'Nunito';
+	font-weight: 200;
+    font-style: normal;
+    width: 100vw;
+    overflow-x: hidden;
+    min-height: 100vh;
+    box-sizing: border-box;
+    color: #424242;
+    background: #f3f8ff;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--active);
+}
+h1 {
+    font-size: 1.9em;
+}
+
+header {
+    width: 100vw;
+    display: flex;
+    padding: 15px 10vw;
+    justify-content: space-between;
+    background: #fff;
+    box-shadow: var(--main-shadow);
+    align-items: center;
+}
+img.header__logo {
+    width: 40px;
+}
+nav.header__main-menu.main-menu {
+    display: flex;
+    gap: 15px;
+}
+
+a.main-menu__link {
+    text-decoration: none;
+    color: var(--main-text);
+}
+
+a.main-menu__link:hover {
+    color: var(--active);
+}
+
+.user-block {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.user-block__name {
+    background: var(--active);
+    padding: 5px 10px;
+    border-radius: 10pc;
+    color: #fff;
+    font-weight: 500;
+}
+
+main {
+    margin: 2.5em 10vw;
+}
+
+.books {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1em;
+}
+
+.card {
+    background: #fff;
+    padding: 1em;
+    border-radius: 10px;
+    box-shadow: var(--main-shadow);
+    display: grid;
+    gap: 8px;
+}
+
+.card__info-item b {
+    color: var(--link);
+    font-weight: 500;
+}
+
+.card__caption {
+    font-weight: 600;
+    font-size: 1.25em;
+}
+img.card__img {
+    width: 100%;
+    height: 280px;
+    object-fit: contain;
+}
+
+.buttons__action {
+    display: flex;
+    gap: 10px;
+}
+.buttons .btn.btn_primary {
+    margin-top: 10px;
+}
+
+.buttons {
+    margin-top: 10px;
+}
+.btn {
+    padding: 10px 1em;
+    border-radius: 13px;
+    display: block;
+    background: var(--link);
+    color: #fff;
+    width: fit-content;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+}
+.btn:hover {
+    color: #fff;
+    opacity: 1;
+}
+.btn_success {
+    opacity: .75;
+    background: var(--success);
+}
+.btn_danger {
+    opacity: .75;
+    background: var(--danger);
+}
+.btn_primary {
+    opacity: .5;
+    background: var(--active);
+}
+p {
+    margin: 0;
+}
+.field-text {
+    display: grid;
+    gap: 4px;
+}
+
+.field label {
+    font-weight: 500;
+}
+
+.field-text input, .field-text select {
+    border: 1px solid var(--link);
+    padding: 8px 10px;
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    font-size: 1em;
+}
+.file-info img {
+    height: 150px;
+    object-fit: contain;
+    object-position: left;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 10px;
+}

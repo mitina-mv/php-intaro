@@ -16,7 +16,7 @@ class AuthController extends Controller
 
     public function index()
     {
-        return $this->render('auth/index');
+        return $this->render('auth/index', ['title' => 'Авторизация']);
     }
 
     public function auth()
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     public function regindex()
     {
-        return $this->render('auth/registration');
+        return $this->render('auth/registration', ['title' => 'Регистрация']);
     }
 
     // TODO валидация данных

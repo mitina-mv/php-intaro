@@ -20,7 +20,10 @@ class BookController extends Controller
     {
         $authors = $this->modelManager->getRepository(Author::class)->findAll();
 
-        return $this->render('book/index', ['authors' => $authors]);
+        return $this->render('book/index', [
+            'authors' => $authors,
+            'title' => 'Добавление книги'
+        ]);
     }
 
     public function create()
@@ -81,7 +84,8 @@ class BookController extends Controller
 
         return $this->render('book/index', [
             'authors' => $authors,
-            'book' => $book
+            'book' => $book,
+            'title' => 'Редактирование: '. $book->name
         ]);
     }
 
@@ -105,14 +109,16 @@ class BookController extends Controller
         $book->isdownload = $request->get('isdownload') == "on" ? true : false;
         $book->author_id = (int) $request->get('author_id');
 
+        // обновление файлов
+        // удаляем предыдущие, загружаем новые, если есть
         try {            
-            if($_FILES['picture'])
+            if($_FILES['picture'] && $_FILES['picture']['error'] == 0)
             {
                 unlink($_SERVER['DOCUMENT_ROOT'] . $book->picture_path);
                 $book->picture_path = loadfile('picture', $_SESSION['user']->email)[0];
             }
 
-            if($_FILES['book'])
+            if($_FILES['book'] && $_FILES['book']['error'] == 0)
             {
                 unlink($_SERVER['DOCUMENT_ROOT'] . $book->file_path);
                 $book->file_path = loadfile(

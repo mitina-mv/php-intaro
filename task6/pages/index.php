@@ -23,7 +23,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
                     <b>Дата прочтения: </b><?= $book->date->format('Y-m-d')?>
                 </div>
 
-                <?php if(isset($_SESSION['user'])):?>
+                <?php if(!isset($_SESSION['user'])):?>
                     <div class="card__info-item user">
                         <b>Добавил(a): </b><?= $book->getUser()->firstname?> <?= $book->getUser()->lastname?>
                     </div>  
@@ -40,7 +40,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
                 <?php endif;?>
 
                 <?php if($book->isdownload):?>
-                    <a href="<?= $book->file_path?>" class="btn btn_primary">Скачать</a>
+                    <a href="<?= $book->file_path?>" class="btn btn_primary" download>Скачать</a>
                 <?php endif;?>
             </div>
 

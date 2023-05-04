@@ -23,7 +23,7 @@ class IndexController extends Controller
         {
             $books = $this->repository->findBy(
                 ['user_id' => $_SESSION['user']->id],
-                ['date' => 'ASC']
+                ['date' => 'DESC']
             );
         } 
         // для неавторизованных - получаем 15 последних прочитанных книг всех пользовтелей
@@ -31,7 +31,7 @@ class IndexController extends Controller
         { 
             $books = $this->repository->findBy(
                 [], 
-                ['date' => 'ASC'], 
+                ['date' => 'DESC'], 
                 15
             );
         }
@@ -39,6 +39,7 @@ class IndexController extends Controller
         return $this->render('index', 
             [
                 'books' => $books,
+                'title' => "Главная"
             ]
         );
     }
