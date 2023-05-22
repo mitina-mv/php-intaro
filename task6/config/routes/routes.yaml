@@ -1,0 +1,56 @@
+index:
+  path: /
+  defaults: { _controller: 'App\Controller\IndexController::index' }
+
+# книга
+book:
+  path: '/book'
+  defaults: { _controller: 'App\Controller\BookController::index' }
+  methods: GET
+
+book_read:
+  path: '/book/{id}'
+  defaults: { _controller: 'App\Controller\BookController::read' }
+  methods: GET  
+
+book_create:
+  path: '/book/create'
+  defaults: { _controller: 'App\Controller\BookController::create' }
+  methods: POST
+
+book_update:
+  path: '/book/{id}/update'
+  defaults: { _controller: 'App\Controller\BookController::update' }
+  methods: POST
+
+book_delete:
+  path: '/book/{id}/delete'
+  defaults: { _controller: 'App\Controller\BookController::delete' }  
+
+# авториазция
+auth:
+  path: '/auth'
+  defaults: { _controller: 'App\Controller\AuthController::index' }
+  methods: GET
+
+auth_user:
+  path: '/auth/user'
+  defaults: { _controller: 'App\Controller\AuthController::auth' }
+  methods: POST
+
+# регистрация
+registration:
+  path: '/registration'
+  defaults: { _controller: 'App\Controller\AuthController::regindex' }
+  methods: GET
+
+registration_user:
+  path: '/registration/user'
+  defaults: { _controller: 'App\Controller\AuthController::register' }
+  methods: POST
+
+# разлогинивание
+logout:
+  path: '/logout'
+  defaults: { _controller: 'App\Controller\AuthController::logout' }
+  methods: GET
