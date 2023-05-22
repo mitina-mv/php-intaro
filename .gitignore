@@ -1,3 +1,5 @@
 */vendor/
 *.png
+*/env.php
+*.ttf
 *.env
