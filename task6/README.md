@@ -32,3 +32,14 @@ MVC проект с функционалом CRUD операций. Можно �
 
 ## Реализовано
 ![alt text](https://github.com/mitina-mv/php-intaro/blob/main/task6/task6_.png)
+
+## Развертывание
+создать файл env.env со структорой:
+```
+DB_USER=postgres
+DB_PASS=kjsjdlksjd
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=library_intaro
+DB_DRIVER=pdo_pgsql
+```

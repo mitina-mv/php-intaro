@@ -54,3 +54,9 @@ logout:
   path: '/logout'
   defaults: { _controller: 'App\Controller\AuthController::logout' }
   methods: GET
+
+# добавление юзеров в бд
+add_user:
+  path: '/add/user'
+  defaults: { _controller: 'App\Controller\AddRecords::users' }
+  methods: GET
