@@ -60,3 +60,11 @@ add_user:
   path: '/add/user'
   defaults: { _controller: 'App\Controller\AddRecords::users' }
   methods: GET
+add_authors:
+  path: '/add/authors'
+  defaults: { _controller: 'App\Controller\AddRecords::authors' }
+  methods: GET
+add_books:
+  path: '/add/books'
+  defaults: { _controller: 'App\Controller\AddRecords::books' }
+  methods: GET
