@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\Author;
 use App\Model\Book;
 use App\Model\User;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends Controller
 {
@@ -16,29 +17,43 @@ class IndexController extends Controller
     
     public function index()
     {        
-        @session_start();
+        // Получаем общее количество книг
+        $totalBooks = $this->repository->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
-        // для авториз. польз. запрашиваем только его книги в порядке прочтения
-        if(isset($_SESSION['user']))
-        {
-            $books = $this->repository->findBy(
-                ['user_id' => $_SESSION['user']->id],
-                ['date' => 'DESC']
-            );
-        } 
-        // для неавторизованных - получаем 15 последних прочитанных книг всех пользовтелей
-        else 
-        { 
-            $books = $this->repository->findBy(
-                [], 
-                ['date' => 'DESC'], 
-                15
-            );
+        // Устанавливаем количество книг на странице
+        $booksPerPage = 10;
+
+        // Получаем номер текущей страницы из параметров запроса
+        $currentPage = $_GET['page'] ?? 1;
+
+        // Вычисляем смещение (начальный индекс) для выборки данных
+        $offset = ($currentPage - 1) * $booksPerPage;
+
+        // Получаем данные для текущей страницы
+        $currentPageBooks = $this->repository->createQueryBuilder('b')
+            ->orderBy('b.date', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($booksPerPage)
+            ->getQuery()
+            ->getResult();
+
+        // Генерируем ссылки на другие страницы
+        $totalPages = ceil($totalBooks / $booksPerPage);
+        $paginationLinks = [];
+        for ($i = $currentPage - 5; $i <= $currentPage + 5; $i++) {
+            if($i == $currentPage)
+                $paginationLinks[] = '<span>' . $i . '</span>';
+            else
+                $paginationLinks[] = '<a href="?page=' . $i . '">' . $i . '</a>';
         }
-    
+
         return $this->render('index', 
             [
-                'books' => $books,
+                'books' => $currentPageBooks,
+                'links' => $paginationLinks,
                 'title' => "Главная"
             ]
         );

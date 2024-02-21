@@ -184,3 +184,24 @@ p {
     flex-direction: column-reverse;
     margin: 10px;
 }
+
+.pagination {
+    display: flex;
+    gap: 1em;
+    margin: 1em auto;
+    width: fit-content;
+}
+
+.pagination a {
+    background: #fff;
+    padding: 1em;
+    border-radius: 50%;
+}
+
+.pagination span {
+    background: #9d84ff;
+    padding: 1em;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 600;
+}

@@ -49,5 +49,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
     <?php endforeach; ?>
 </div>
 
+<div class="pagination">
+    <?php foreach ($links as $link) : ?>
+        <?=$link?>
+    <?php endforeach; ?>
+</div>
+
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/footer.php');

@@ -1,0 +1,2 @@
+services:
+    Knp\Component\Pager\PaginatorInterface: '@knp_paginator'
