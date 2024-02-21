@@ -24,7 +24,7 @@ class IndexController extends Controller
             ->getSingleScalarResult();
 
         // Устанавливаем количество книг на странице
-        $booksPerPage = 10;
+        $booksPerPage = 12;
 
         // Получаем номер текущей страницы из параметров запроса
         $currentPage = $_GET['page'] ?? 1;

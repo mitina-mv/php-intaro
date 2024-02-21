@@ -20,9 +20,9 @@
 
         <div class="user-block">
             <?php if(isset($_SESSION['user'])):?>
-                <div class="user-block__name">
+                <a href="/profile" class="user-block__name">
                     <?=$_SESSION['user']->firstname?>
-                </div>
+                </a>
                 <a href="/logout">Выход</a>
             <?php else:?>
                 <a href="/auth">Авторизация</a> / 
