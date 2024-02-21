@@ -1,6 +1,13 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 ?>
+<?php if($searchOn):?>
+    <form action="/" method="get" class='search'>
+        <input type="text" id="name" name="name" placeholder="Поиск по названию книги">
+        <input type="submit" class='btn btn_primary' value="Найти">
+    </form>
+<?php endif;?>
+
 <div class="books">
     <?php foreach ($books as $book) : ?>
         <div class="books__item card">

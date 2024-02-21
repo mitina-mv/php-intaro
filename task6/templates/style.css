@@ -213,3 +213,21 @@ p {
     align-items: center;
     justify-content: center;
 }
+
+form.search {
+    display: flex;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+form.search input#name {
+    width: 100%;
+    background: #fff;
+    border: none;
+    padding: .8em 1.5em;
+    color: #424242;
+    font-size: 1em;
+    outline: none;
+    border-radius: 16px;
+    box-shadow: var(--main-shadow);
+}

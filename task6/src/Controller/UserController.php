@@ -70,6 +70,7 @@ class UserController extends Controller
             [
                 'books' => $currentPageBooks,
                 'links' => $paginationLinks,
+                'searchOn' => false,
                 'title' => "Моя полка"
             ]
         );
@@ -132,7 +133,8 @@ class UserController extends Controller
             [
                 'books' => $currentPageBooks,
                 'links' => $paginationLinks,
-                'title' => "Полка пользователя " . $user->firstname . " " .$user->lastname
+                'title' => "Полка пользователя " . $user->firstname . " " .$user->lastname,
+                'searchOn' => false,
             ]
         );
     }

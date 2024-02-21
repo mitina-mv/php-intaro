@@ -17,14 +17,17 @@ class IndexController extends Controller
     
     public function index()
     {        
+        $findStr = $_GET['name'] ?? "";
         // Получаем общее количество книг
         $totalBooks = $this->repository->createQueryBuilder('b')
             ->select('COUNT(b.id)')
+            ->where('b.name LIKE :str')
+            ->setParameter('str', '%' . $findStr . '%')
             ->getQuery()
             ->getSingleScalarResult();
 
         // Устанавливаем количество книг на странице
-        $booksPerPage = 12;
+        $booksPerPage = 6;
 
         // Получаем номер текущей страницы из параметров запроса
         $currentPage = $_GET['page'] ?? 1;
@@ -34,6 +37,8 @@ class IndexController extends Controller
 
         // Получаем данные для текущей страницы
         $currentPageBooks = $this->repository->createQueryBuilder('b')
+            ->where('b.name LIKE :str')
+            ->setParameter('str', '%' . $findStr . '%')
             ->orderBy('b.date', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($booksPerPage)
@@ -43,20 +48,26 @@ class IndexController extends Controller
         // Генерируем ссылки на другие страницы
         $totalPages = ceil($totalBooks / $booksPerPage);
         $paginationLinks = [];
-        $beginPage = $currentPage > 5 ? $currentPage - 5 : 1;
-        $endPage = $currentPage > 5 ? $currentPage + 5 : 10;
-        for ($i = $beginPage; $i <= $endPage; $i++) {
-            if($i == $currentPage)
-                $paginationLinks[] = '<span>' . $i . '</span>';
-            else
-                $paginationLinks[] = '<a href="?page=' . $i . '">' . $i . '</a>';
+
+        if($totalPages > 1) 
+        {
+            $beginPage = $currentPage > 5 ? $currentPage - 5 : 1;
+            $endPage = $totalPages >= 10 ? ($currentPage > 5 ? $currentPage + 5 : 10) : $totalPages;
+            
+            for ($i = $beginPage; $i <= $endPage; $i++) {
+                if($i == $currentPage)
+                    $paginationLinks[] = '<span>' . $i . '</span>';
+                else
+                    $paginationLinks[] = '<a href="?page=' . $i . '&name=' . $findStr . '">' . $i . '</a>';
+            }
         }
 
         return $this->render('index', 
             [
                 'books' => $currentPageBooks,
                 'links' => $paginationLinks,
-                'title' => "Главная"
+                'searchOn' => true,
+                'title' => $findStr ? 'Результаты поиска по запросу "' . $findStr . '"' : "Главная"
             ]
         );
     }

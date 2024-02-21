@@ -42,4 +42,5 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=library_intaro
 DB_DRIVER=pdo_pgsql
+ALLOWED_FORMAT_BOOK=pdf,fb2,epub
 ```
