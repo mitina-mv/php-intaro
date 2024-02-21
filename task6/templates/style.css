@@ -194,14 +194,22 @@ p {
 
 .pagination a {
     background: #fff;
-    padding: 1em;
     border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .pagination span {
     background: #9d84ff;
-    padding: 1em;
     border-radius: 50%;
     color: #fff;
     font-weight: 600;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

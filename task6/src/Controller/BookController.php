@@ -77,9 +77,17 @@ class BookController extends Controller
         @session_start();
 
         if(!isset($_SESSION['user']))
-            $this->redirect('/book');
+        {
+            $this->redirect('/book', ["error" => "Для редактрования нужна авторизация."]);
+        }
 
         $book = $this->repository->find((int) $id[0]);
+
+        if($book->user_id != $_SESSION['user']->id) 
+        {
+            return $this->redirect('/book/', ["error" => "У вас нет прав редактировать эту запись"]);
+        }
+
         $authors = $this->modelManager->getRepository(Author::class)->findAll();
 
         return $this->render('book/index', [

@@ -68,3 +68,13 @@ add_books:
   path: '/add/books'
   defaults: { _controller: 'App\Controller\AddRecords::books' }
   methods: GET
+
+# страницы профилей
+profile:
+  path: '/profile'
+  defaults: { _controller: 'App\Controller\UserController::index' }
+  methods: GET
+user:
+  path: '/user/{id}'
+  defaults: { _controller: 'App\Controller\UserController::user' }
+  methods: GET

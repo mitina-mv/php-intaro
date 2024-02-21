@@ -43,7 +43,9 @@ class IndexController extends Controller
         // Генерируем ссылки на другие страницы
         $totalPages = ceil($totalBooks / $booksPerPage);
         $paginationLinks = [];
-        for ($i = $currentPage - 5; $i <= $currentPage + 5; $i++) {
+        $beginPage = $currentPage > 5 ? $currentPage - 5 : 1;
+        $endPage = $currentPage > 5 ? $currentPage + 5 : 10;
+        for ($i = $beginPage; $i <= $endPage; $i++) {
             if($i == $currentPage)
                 $paginationLinks[] = '<span>' . $i . '</span>';
             else

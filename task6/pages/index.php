@@ -23,22 +23,15 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
                     <b>Дата прочтения: </b><?= $book->date->format('Y-m-d')?>
                 </div>
 
-                <?php if(!isset($_SESSION['user'])):?>
-                    <div class="card__info-item user">
-                        <b>Добавил(a): </b><?= $book->getUser()->firstname?> <?= $book->getUser()->lastname?>
-                    </div>  
-                <?php endif;?>                  
+                <div class="card__info-item user">
+                    <b>Добавил(a): </b>
+                    <a href="<?='/user/' . $book->getUser()->id?>"> 
+                        <?= $book->getUser()->firstname?> <?= $book->getUser()->lastname?>
+                    </a>
+                </div>                   
             </div>
 
             <div class="buttons">
-
-                <?php if(isset($_SESSION['user'])):?>
-                    <div class="buttons__action">
-                        <a href="/book/<?= $book->id?>" class="btn btn_success btn_edit">Редактировать</a>
-                        <a href="/book/<?= $book->id?>/delete" class="btn btn_danger btn_delete">Удалить</a>
-                    </div>
-                <?php endif;?>
-
                 <?php if($book->isdownload):?>
                     <a href="<?= $book->file_path?>" class="btn btn_primary" download>Скачать</a>
                 <?php endif;?>
