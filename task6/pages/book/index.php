@@ -1,7 +1,12 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
 ?>
-<?php if(isset($_SESSION['user'])):?>
+
+<?php if(!empty($_GET['error'])):?>
+    <div class="error">
+        <?=$_GET['error']?>
+    </div>
+<?php elseif(isset($_SESSION['user'])):?>
     <form 
         <?php if(isset($book)):?>
             action="/book/<?= $book->id?>/update"

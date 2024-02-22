@@ -231,3 +231,10 @@ form.search input#name {
     border-radius: 16px;
     box-shadow: var(--main-shadow);
 }
+
+.error {
+    background: #ffdcdc;
+    box-shadow: 0px 0px 20px #ff5f5f96;
+    border-radius: 16px;
+    padding: 1em 2em;
+}

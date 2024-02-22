@@ -78,14 +78,14 @@ class BookController extends Controller
 
         if(!isset($_SESSION['user']))
         {
-            $this->redirect('/', ["error" => "Для редактрования нужна авторизация."]);
+            $this->redirect('/book', ["error" => "Для редактрования нужна авторизация."]);
         }
 
         $book = $this->repository->find((int) $id[0]);
 
         if($book->user_id != $_SESSION['user']->id) 
         {
-            return $this->redirect('/profile', ["error" => "У вас нет прав редактировать эту запись"]);
+            return $this->redirect('/book', ["error" => "У вас нет прав редактировать эту запись"]);
         }
 
         $authors = $this->modelManager->getRepository(Author::class)->findAll();
@@ -105,11 +105,11 @@ class BookController extends Controller
         $book = $this->repository->find((int) $id[0]);
 
         if(empty($book)){
-            return $this->redirect('/book/' . $id[0], ["error" => "Неизвестная книга, ID не найден"]);
+            return $this->redirect('/book', ["error" => "Неизвестная книга, ID не найден"]);
         }
 
         if($book->user_id != $_SESSION['user']->id){
-            return $this->redirect('/profile', ["error" => "У вас нет прав редактировать эту запись"]);
+            return $this->redirect('/book', ["error" => "У вас нет прав редактировать эту запись"]);
         }
 
         $book->name = $request->get('name');
@@ -152,7 +152,7 @@ class BookController extends Controller
         $book = $this->repository->find((int) $id[0]);
 
         if($book->user_id != $_SESSION['user']->id){
-            return $this->redirect('/', ["error" => "У вас нет прав удалять эту запись"]);
+            return $this->redirect('/book', ["error" => "У вас нет прав удалять эту запись"]);
         }
 
         // удаление файлов

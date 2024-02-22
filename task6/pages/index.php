@@ -8,6 +8,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
     </form>
 <?php endif;?>
 
+<?php if(!empty($_GET['error'])):?>
+    <div class="error">
+        <?=$_GET['error']?>
+    </div>
+<?php endif;?>
+
 <div class="books">
     <?php foreach ($books as $book) : ?>
         <div class="books__item card">
@@ -30,7 +36,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/templates/header.php');
                     <b>Дата прочтения: </b><?= $book->date->format('Y-m-d')?>
                 </div>
 
-                <?php if($_SESSION && $_SESSION['user']->id != $book->getUser()->id):?>
+                <?php if( !$_SESSION ||
+                    ($_SESSION && $_SESSION['user']->id != $book->getUser()->id)
+                ):?>
                 <div class="card__info-item user">
                     <b>Добавил(a): </b>
                     <a href="<?='/user/' . $book->getUser()->id?>"> 
